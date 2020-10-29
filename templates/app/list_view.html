@@ -1,0 +1,92 @@
+
+<table class="table responsive datatable dataTable" id="sort" style="width:100%" >
+  <thead class="thead-dark">
+    <tr>
+      <th scope="col" class="sorting fn">First Name</th>
+      <th scope="col" class="sorting ln">Last Name</th>
+      <th scope="col" class="sorting email">Email</th>
+      <th scope="col" class="sorting age">Age</th>
+      <th scope="col">Action</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% if record_list %}
+        {% for each in record_list %}
+            <tr>
+              <td>{{ each.firstName | capfirst }}</td>
+              <td>{{ each.lastName | capfirst  }}</td>
+              <td>{{ each.email }}</td>
+              <td>{{ each.age }}</td>
+              <td>
+                  <a class="btn btn-primary" href="{% url 'edit_emp' each.id %}">
+                      <i aria-hidden="true" class="fa fa-pencil-square-o"></i>
+                  </a>
+
+                  <a class="btn btn-danger" href="#" onclick="javascript:showdelete('{{ each.firstName }}','{{ each.id }}');">
+                      <i aria-hidden="true" class="fa fa-trash"></i>
+                  </a>
+              </td>
+            </tr>
+        {% endfor %}
+    {% else %}
+        <tr>
+            <th>No Data Found</th>
+        </tr>
+    {% endif %}
+  </tbody>
+</table>
+
+<!-- Pagination -->
+{% if record_list.has_other_pages %}
+
+<div class="text-center" style="float:right">
+    <ul class="pagination">
+
+        {% if record_list.has_previous %}
+        <li>
+
+            <a class="previous" href="?page=1">
+                << </a> <a class="previous" href="?page={{ record_list.previous_page_number }}">
+                    < </a> </li> {% else %} <li class="disabled"><span>
+                            << </span> </li> <li class="disabled"><span>
+                                    < </span> </li> {% endif %} {% if start_index %} <li>
+                                        <a class="next" href="?page={{ start_index }}">{{ start_index }}</a>
+
+        </li>
+
+        <li class="disabled"><span>&mldr;</span></li>
+        {% endif %}
+
+        {% for i in page_range %}
+        {% if record_list.number == i %}
+        <li class="active"><span>{{ i }} <span class="sr-only">(current)</span></span></li>
+        {% else %}
+        <li>
+            <a class="previous" href="?page={{ i }}">{{ i }}</a>
+
+        </li>
+        {% endif %}
+        {% endfor %}
+        {% if record_list.has_next %}
+        {% if end_index %}
+        <li class="disabled"><span>&mldr;</span></li>
+        <li><a class="previous" href="?page={{ end_index }}">{{ end_index }}</a></li>
+
+        {% endif %}
+        <li>
+            <a class="next" href="?page={{ record_list.next_page_number }}"> > </a>
+            <a class="next" href="?page={{max_index}}"> >> </a>
+
+        </li>
+        {% else %}
+        <li class="disabled"><span> > </span></li>
+        <li class="disabled"><span> >> </span></li>
+        {% endif %}
+
+    </ul>
+</div>
+<link rel="stylesheet" href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css" crossorigin="anonymous">
+<script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
+
+{% endif %}
+<!--Pagination-->

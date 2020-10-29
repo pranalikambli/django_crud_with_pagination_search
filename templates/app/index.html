@@ -1,0 +1,81 @@
+{% extends 'base.html' %}
+{% load static%}
+
+{% block content %}
+<!-- Body Elements -->
+<div class="content-wrapper">
+    <div class="container">
+        <form method="get" class = "marketsearch">
+            <h1>
+                 Employee List
+            </h1>
+            <br/>
+            <br/>
+
+            <div class="displayData-container container">
+                <div class="alert alert-success" id="delete_success" style="display:none !important">
+                    <button class="close" data-dismiss="alert" type="button">X</button>
+                    <strong>Success!</strong> Employee Deleted Successfully
+                </div>
+
+                {% if messages %}
+                    {% for message in messages %}
+                        <div class="alert alert-{{ message.tags }}">
+                            <button class="close" data-dismiss="alert" type="button">X</button>
+                            <strong>Success!</strong> {{ message }}
+                        </div>
+                    {% endfor %}
+                {% endif %}
+
+                <div class="clearfix">
+                    <div class="pull-left">
+                        <input name="filter" type="text" value=""  placeholder="Search By First Name" autocomplete="off" class="form-control-sm fa fa-search search form-control"/>
+                        <input name="sortfn" id="sortbyfn"  type="hidden" value="-firstName"/>
+                        <input name="sortln" id="sortbyln"  type="hidden" value="-lastName"/>
+                        <input name="sortemail" id="sortbyemail"  type="hidden" value="-email"/>
+                        <input name="sortage" id="sortbyage"  type="hidden" value="-age"/>
+                        <input name="click" id="click"  type="hidden" value="0"/>
+                    </div>
+                    <div class="pull-right">
+                       <a class="btn btn-secondary" href="{% url 'add_emp' %}" role="button">Add Employee</a>
+                    </div>
+                </div>
+                <br/>
+                <div id="results">
+
+                </div>
+            </div>
+            <input id="autoid" name="autoid" type="hidden" value="">
+        </form>
+
+        <div class="modal" id="myModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title">Are you sure you want to Delete : <span id="deleting_field"></span> this employee</h4>
+                <button class="close" data-dismiss="modal" type="button">&times;</button>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body">
+                <form id="updateStatusFrm">
+                    <button class="btn btn-primary" onclick="javascript: deleteemp('');" type="button"><i class="fa fa-check ico-mar"></i>Yes
+                    </button>
+
+                    <button class="btn btn-danger" data-dismiss="modal" type="button">
+                        <i class="fa fa-times ico-mar"></i>No
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+    </div>
+</div>
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<script type="text/javascript" src="{% static 'js/emp.js' %}"></script>
+<link href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet">
+
+{% endblock %}

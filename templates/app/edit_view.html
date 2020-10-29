@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<style>
+.errorlist {
+    list-style:none;
+    color: #1e1f1e;
+    background-color: #f17070;
+    border-color: #d6e9c6;
+    padding: 15px;
+    margin-bottom: 20px;
+    border: 1px solid transparent;
+    border-radius: 4px;
+}
+
+</style>
+
+<div class="container pt-5">
+    <h1> Update Post </h1>
+    <br/>
+    {% if ValidationError.errors %}
+    {{ValidationError.non_field_errors}}
+    {% endif %}
+    <form method="post" novalidate>
+        {% csrf_token %}
+        <input type="hidden" name="id" class="form-control" required="" id="id_id" value="{{form.id}}">
+        <div class="form-group">
+            <label>First Name</label>
+            <input type="text" name="firstName" class="form-control" required="" id="id_firstName" value="{{form.firstName}}">
+            <span class="help-block" style="color:red">{{ValidationError.errors.firstName | striptags}}</span>
+        </div>
+        <div class="form-group">
+            <label>Last Name</label>
+            <input type="text" name="lastName" class="form-control" required="" id="id_lastName" value="{{form.lastName}}">
+            <span class="help-block" style="color:red">{{ValidationError.errors.lastName | striptags}}</span>
+        </div>
+        <div class="form-group">
+            <label>Email</label>
+            <input type="text" name="email" class="form-control" required="" id="id_email" value="{{form.email}}">
+            <span class="help-block" style="color:red">{{ValidationError.errors.email | striptags}}</span>
+        </div>
+        <div class="form-group">
+            <label>Age</label>
+            <input type="text" name="age" class="form-control" required="" id="id_age" value="{{form.age}}">
+            <span class="help-block" style="color:red">{{ValidationError.errors.age | striptags}}</span>
+        </div>
+         <input type="hidden" name="id"  value="{{form.id}}">
+
+        <div>
+            <button type="submit" class="btn btn-success">Submit</button>
+            <a href="{% url 'home' %}" class="btn btn-default">Cancel</a>
+        </div>
+    </form>
+</div>
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<script>
+$( document ).ready(function() {
+  $('.errorlist').delay(3000).fadeOut();
+});
+</script>
+{% endblock %}

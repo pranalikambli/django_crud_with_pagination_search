@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<style>
+.errorlist {
+    list-style:none;
+    color: #1e1f1e;
+    background-color: #f17070;
+    border-color: #d6e9c6;
+    padding: 15px;
+    margin-bottom: 20px;
+    border: 1px solid transparent;
+    border-radius: 4px;
+}
+
+</style>
+<div class="container pt-5">
+    <h1> Add New Employee </h1>
+    <br/>
+    {% if form.errors %}
+    {{form.non_field_errors}}
+    {% endif %}
+    <form method="post" novalidate>
+        {% csrf_token %}
+        {% for field in form.visible_fields %}
+            <div class="form-group">
+                <label for="{{ field.id_for_label }}">{{field.label}}</label>
+                {{field}}
+                {% for error in field.errors %}
+                    <span class="help-block" style="color:red">{{error |striptags}}</span>
+                {% endfor %}
+            </div>
+        {% endfor %}
+        <div>
+            <button type="submit" class="btn btn-success">Submit</button>
+            <a href="{% url 'home' %}" class="btn btn-default">Cancel</a>
+        </div>
+
+    </form>
+</div>
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<script>
+$( document ).ready(function() {
+  $('.errorlist').delay(3000).fadeOut();
+});
+</script>
+{% endblock %}
